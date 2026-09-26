@@ -1,0 +1,187 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $system_password = 'gesardo';
+
+print "Enter System Password: ";
+my $login_password = <STDIN>;
+exit unless defined $login_password;
+chomp $login_password;
+
+if ($login_password ne $system_password) {
+    print "Invalid System Password! Access Denied.\n";
+    exit;
+}
+
+my %users = (
+    '123' => 'cabardo',
+    '456' => 'gesolgon',
+    '789' => 'gesardo',
+);
+
+while (1) {
+    print "\n-------------- USER MENU --------------\n";
+    print "[1] Display Usernames\n";
+    print "[2] Check User by Username\n";
+    print "[3] Add User\n";
+    print "[4] Update Password by Username\n";
+    print "[5] Delete User by Username\n";
+    print "[6] Display Number of Users\n";
+    print "[7] Display Passwords and Usernames\n";
+    print "[8] Exit\n";
+    print "--------------------------------------------\n";
+    print "Choose an option: ";
+
+    my $option = <STDIN>;
+    last unless defined $option;
+    chomp $option;
+
+    if ($option eq '1') {
+        print "\nUsernames:\n";
+        print "$users{$_}\n" for sort keys %users;
+    }
+    elsif ($option eq '2') {
+        print "Enter username to check: ";
+        my $username = <STDIN>;
+        next unless defined $username;
+        chomp $username;
+
+        my $found = 0;
+
+        for my $password (keys %users) {
+            if ($users{$password} eq $username) {
+                print "Username found: $username\n";
+                $found = 1;
+                last;
+            }
+        }
+
+        print "Username not found.\n" unless $found;
+    }
+        elsif ($option eq '3') {
+        while (1) {
+            print "Enter new password: ";
+            my $password = <STDIN>;
+            next unless defined $password;
+            chomp $password;
+
+            if (exists $users{$password}) {
+                print "Invalid input\n";
+                print "[1] Return to menu\n";
+                print "[2] Enter another password\n";
+                print "Choose an option: ";
+
+                my $retry = <STDIN>;
+                next unless defined $retry;
+                chomp $retry;
+
+                last if $retry ne '2';
+                next;
+            }
+
+            print "Enter username: ";
+            my $username = <STDIN>;
+            next unless defined $username;
+            chomp $username;
+
+            $users{$password} = $username;
+            print "User has been added successfully.\n";
+
+            print "\nPassword => Username\n";
+            print "$_ => $users{$_}\n" for sort keys %users;
+            last;
+        }
+    }
+    elsif ($option eq '4') {
+        print "Enter username to update: ";
+        my $username = <STDIN>;
+        next unless defined $username;
+        chomp $username;
+
+        my $found_password;
+
+        for my $password (keys %users) {
+            if ($users{$password} eq $username) {
+                $found_password = $password;
+                last;
+            }
+        }
+
+        if (!defined $found_password) {
+            print "Username not found.\n";
+            next;
+        }
+
+        print "Enter new password: ";
+        my $new_password = <STDIN>;
+        next unless defined $new_password;
+        chomp $new_password;
+
+        if ($new_password ne $found_password && exists $users{$new_password}) {
+            print "That password is already in use.\n";
+            next;
+        }
+
+        my $saved_username = delete $users{$found_password};
+        $users{$new_password} = $saved_username;
+
+        print "Password updated for username '$username'.\n";
+        print "\nPassword => Username\n";
+        print "$_ => $users{$_}\n" for sort keys %users;
+    }
+    elsif ($option eq '5') {
+        print "Enter username to delete: ";
+        my $username = <STDIN>;
+        next unless defined $username;
+        chomp $username;
+
+        my $found_password;
+
+        for my $password (keys %users) {
+            if ($users{$password} eq $username) {
+                $found_password = $password;
+                last;
+            }
+        }
+
+        if (defined $found_password) {
+            delete $users{$found_password};
+            print "User '$username' deleted.\n";
+        } else {
+            print "Username not found.\n";
+        }
+
+        print "\nPassword => Username\n";
+        print "$_ => $users{$_}\n" for sort keys %users;
+    }
+    elsif ($option eq '6') {
+        print "Number of users: ", scalar(keys %users), "\n";
+    }
+    elsif ($option eq '7') {
+        print "\nPassword => Username\n";
+        print "$_ => $users{$_}\n" for sort keys %users;
+    }
+    elsif ($option eq '8') {
+        
+while (1) {
+        print "Do you want to exit?\n";
+            print "[1] NO\n[2] YES\n";
+            print "Enter choice: ";
+            my $exit = <STDIN>;
+            chomp $exit;
+            if ($exit == 1) {
+                
+            } elsif ($exit == 2) {
+                print "Goodbye... :(";
+                exit;
+            } else {
+                print "Invalid input! Please Try Again:)";
+            }
+        last;
+    }
+    }
+    else {
+        print "Invalid choice! Please enter a number from 1 to 8 only.\n";
+    }
+}
