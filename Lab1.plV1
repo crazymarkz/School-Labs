@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+
+print "-----BASIC INFORMATION-----\n";
+print "Enter your name: ";
+chomp (my $name = <STDIN>);
+print "Enter your age: ";
+my $age = <>;
+chomp ($age);
+print "Enter your birthday: ";
+my $bday = <>;
+chomp ($bday);
+print "What is your civil status: ";
+my $civstat = <>;
+chomp ($civstat);
+print "Enter your gender: ";
+my $gender = <>;
+chomp ($gender);
+print "\n";
+
+print "-----COURSE INFORMATION-----\n";
+print "Enter your course: ";
+my $course = <>;
+chomp ($course);
+print "Enter your section: ";
+my $section = <>;
+chomp ($section);
+print "Enter the full course name: ";
+my $fcoursename = <>;
+chomp ($fcoursename);
+print "\n";
+
+print "-----SUBJECT INFORMATION-----\n";
+print "Enter subject code: ";
+my $subjcode = <>;
+chomp ($subjcode);
+print "Enter your subject name: ";
+my $subjname = <>;
+chomp ($subjname);
+print "Enter your section: ";
+my $sec2 = <>;
+chomp ($sec2);
+print "\n";
+
+print "Hello!I am $name and I am $age years old. My birthday is $bday. I am also $civstat and also a $gender. My course is $course and my section is $section, my $course full name is $fcoursename. The code of my subject is $subjcode and its name is $subjname. My section is $sec2.
+Thank you!";
+
+
