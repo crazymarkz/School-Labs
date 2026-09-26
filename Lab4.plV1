@@ -1,0 +1,83 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my @fruits = ("Kiwi", "Rambutan", "Dragon Fruit", "Watermelon", "Lemon", "Santol");
+
+print "--------------GesArdo Fruits Store--------------\n\n";
+print "------- Available Fruits -------\n";
+for (my $i = 0; $i < @fruits; $i++) {
+        @fruits = sort(@fruits);
+        print " [$i] $fruits[$i]\n";
+    }
+    print "--------------------------------\n";
+
+while (1) {
+    print "Do you want to add a fruit? (YES/NO): ";
+    my $choice = <STDIN>;
+    chomp($choice);
+    $choice = uc(trim_spaces($choice)); 
+
+    if ($choice eq "YES" || $choice eq "Y") {
+        while (1) {
+            print "\nEnter the name of the fruit to add: ";
+            my $new_fruit = <STDIN>;
+            chomp($new_fruit);
+            $new_fruit = trim_spaces($new_fruit);
+
+            if ($new_fruit eq "") {
+                print "Invalid Input. Fruit name cannot be empty.\n";
+                next;
+            }
+
+            my $found_index = -1;
+            for (my $i = 0; $i < @fruits; $i++) {
+                if (lc($fruits[$i]) eq lc($new_fruit)) {
+                    $found_index = $i;
+                    last;
+                }
+            }
+
+            if ($found_index != -1) {
+                print "\nFruit already exists at index [$found_index] in the list.\n";
+            } else {
+                $new_fruit = ucfirst(lc($new_fruit));
+                push(@fruits, $new_fruit);
+                print "\n'$new_fruit' has been added successfully!\n";
+
+                print "------- Available Fruits -------\n";
+                for (my $i = 0; $i < @fruits; $i++) {
+                    @fruits = sort(@fruits);
+                    print " [$i] $fruits[$i]\n";
+                }
+    print "--------------------------------\n\n";
+            }
+
+            print "Do you want to add another fruit? (YES/NO): ";
+            my $again = <STDIN>;
+            chomp($again);
+            $again = uc(trim_spaces($again));
+
+            if ($again eq "NO" || $again eq "N") {
+                last;
+                last; 
+            } elsif ($again ne "YES" && $again ne "Y") {
+                print "Invalid Input. Returning to main menu.\n";
+                last;
+            }
+        }
+
+    } elsif ($choice eq "NO" || $choice eq "N") {
+        print "\nGOODBYE!\n";
+        last; 
+
+    } else {
+        print "Invalid Input. Please enter 'YES' or 'NO'.\n\n";
+    }
+}
+
+sub trim_spaces {
+    my $string = shift;
+    $string =~ s/^\s+|\s+$//g;
+    return $string;
+}
